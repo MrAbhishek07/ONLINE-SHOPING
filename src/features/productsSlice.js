@@ -25,15 +25,15 @@ const productsSlice = createSlice({
     reducers: {},
     extraReducers: {
         [productFetch.pending]: (state, action) => {
-            // immer
+            // immer: to update the sate in immutable way
             state.status = "pending"
         },
         [productFetch.fulfilled]: (state, action) => {
-            // immer
+       
             state.status = "success"
         },
         [productFetch.rejected]: (state, action) => {
-            // immer
+            
             state.status = "rejected"
         }
     }
