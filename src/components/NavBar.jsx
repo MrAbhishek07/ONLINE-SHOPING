@@ -1,11 +1,24 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Switch from "react-switch";
+import { useState } from 'react';
+
 
 
 const NavBar = () => {
+
+
+    const [theme, setTheme] = useState("light");
+
+    const themeToggle = () => {
+      theme = "light" ? setTheme("dark") : setTheme("dark");
+    }
+    
+
+
     const { cartTotalQuantity } = useSelector(state => state.cart)
     return (
-        <nav className="nav-bar fixed-top">
+        <nav className="nav-bar sticky-top">
             <Link to="/">
                 <h2>Online Shop</h2>
             </Link>
@@ -19,6 +32,14 @@ const NavBar = () => {
             <Link to="/contact">
                 <h4>Contact</h4>
             </Link>
+            <Link to="/login">
+                <h6>Login</h6>
+            </Link>
+            <Link to="/register">
+                <h6>Register</h6>
+            </Link>
+
+
            {/* </div> */}
             <Link to="/cart">
                 <div className="nav-bag">
@@ -30,6 +51,7 @@ const NavBar = () => {
                     </span>
                 </div>
             </Link>
+          <Switch onChange={() =>themeToggle() } />
         </nav>
     );
 }

@@ -16,7 +16,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 4rem;
+  z-index: 9;
 }
+
+
+
 
 .nav-bar a{
   text-decoration: none;
@@ -66,9 +70,9 @@
 }
 
 /* ********Home******** */
-.home-container{
+/* .home-container{
   padding: 5rem 4rem;
-}
+} */
 .home-container h2{
   font-size: 40px;
   font-weight: 400;;
@@ -82,9 +86,9 @@
 }
 
 /* *****************CART*************************** */
-.cart-container{
+/* .cart-container{
   padding: 6rem 4rem;
-}
+} */
 
 .cart-container h2{
   font-weight: 400;
@@ -240,6 +244,6 @@
 
 /* **********CONTACT******* */
 
-.contact{
+/* .contact{
   padding: 5rem 4rem;
-}
+} */

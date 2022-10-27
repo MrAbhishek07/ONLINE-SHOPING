@@ -1,0 +1,41 @@
+.login-page{
+    display: flex;
+   justify-content:space-around;
+}
+
+.btn{
+    font-size: 1.3rem;
+    font-weight: 400;
+    padding: 6px 10px;
+    border: 1px solid ;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+.form{
+   margin:200px 200px 0px 0px ;
+}
+
+/* .form{
+    border: 1px solid transparent;
+    border-radius: 5px;
+    box-shadow: var(--box--shadow);
+    overflow: hidden;
+} */
+.register-page{
+    display: flex;
+   justify-content:space-around;
+}
+.register{
+    margin:200px 0px 0px 0px ;
+ }
+ .reset-page{
+    display: flex;
+   justify-content:space-around;
+}
+.reset{
+    margin:200px 00px 0px 0px ;
+ }
+ 
