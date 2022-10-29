@@ -1,20 +1,72 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Switch from "react-switch";
 import { useState } from 'react';
-
+import { auth } from './firebase/config';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { toast } from 'react-toastify';
+import { useEffect } from 'react';
+import { FaUserCircle } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { REMOVE_ACTIVE_USER, SET_ACTIVE_USER } from '../features/authSlice';
+import ShowOnLogin from './hiddenLink/hiddenLink';
 
 
 const NavBar = () => {
 
 
     const [theme, setTheme] = useState("light");
+    const [displayName, setDisplayName] = useState("");
+
+    const navigate = useNavigate
+
+    const dispatch = useDispatch()
+
+
+    //monitor currently signed user//
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // console.log(user);
+                // const uid = user.uid;
+                // console.log(user.displayName);
+                if(user.displayName == null){
+                    const u1 = user.email.slice(0, -10);
+                    const uName = u1.charAt(0).toUpperCase() + u1.slice(1)
+                    // console.log(uName);
+                    setDisplayName(uName)
+                } else{
+
+                    setDisplayName(user.displayName)
+                }
+
+                dispatch(SET_ACTIVE_USER({
+                    email: user.email,
+                    userName: user.displayName ? user.displayName : displayName,
+                    userId: user.uid,
+                })
+                );
+            } else {
+                setDisplayName(" ")
+                dispatch( REMOVE_ACTIVE_USER());
+            }
+        });
+    }, [dispatch, displayName])
+
+
 
     const themeToggle = () => {
-      theme = "light" ? setTheme("dark") : setTheme("dark");
+        theme = "light" ? setTheme("dark") : setTheme("dark");
     }
-    
 
+    const logoutUser = () => {
+        signOut(auth).then(() => {
+            toast.success("Logout successsfully....")
+            navigate("/")
+
+        }).catch((error) => {
+            toast.error(error.message)
+        });
+    }
 
     const { cartTotalQuantity } = useSelector(state => state.cart)
     return (
@@ -22,8 +74,8 @@ const NavBar = () => {
             <Link to="/">
                 <h2>Online Shop</h2>
             </Link>
-           {/* <div className="nav-content"> */}
-           <Link to="/">
+            {/* <div className="nav-content"> */}
+            <Link to="/">
                 <h4> Home </h4>
             </Link>
             <Link to="/products">
@@ -35,12 +87,21 @@ const NavBar = () => {
             <Link to="/login">
                 <h6>Login</h6>
             </Link>
+            <a href="#">
+                <FaUserCircle size={16} />
+                hi,{displayName}
+            </a>
             <Link to="/register">
                 <h6>Register</h6>
             </Link>
+            {/* <ShowOnLogin> */}
+            <Link to="/" onClick={logoutUser}>
+                <p>LogOut</p>
+            </Link>
+            {/* </ShowOnLogin> */}
 
 
-           {/* </div> */}
+            {/* </div> */}
             <Link to="/cart">
                 <div className="nav-bag">
                     <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" className="bi bi-handbag-fill" viewBox="0 0 16 16">
@@ -51,7 +112,7 @@ const NavBar = () => {
                     </span>
                 </div>
             </Link>
-          <Switch onChange={() =>themeToggle() } />
+            {/* <Switch onChange={() =>themeToggle() } /> */}
         </nav>
     );
 }
